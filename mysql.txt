@@ -1,0 +1,131 @@
+   Database Model Design for an ZenClass:
+
+-  The IT Institution thought Courses, which is related to multiple Batch.
+
+- List of Tables
+  1. Courses: Contains details about the course like Name, Description etc., and has a unique ID (CourseID).
+  2. Batch: Contains details about each batch in the course like Start Date & Time, End Date & Time, Fee etc.
+  3. Student: Contains personal information about students like Name, Address, Contact Number etc. It also contains a foreign key "StudentID".
+  4. Student_Course:  This table contains information about the relationship between students and courses. It will have two foreign keys .It also contains a foreign key "CourseID".It also contains a foreign key "Batch ID".
+  5. Mentors : Contains  information about the mentor who teaches that particular course. It includes Mentor’s name and other details.
+  6. Co-ordinator: A person who manages the course. It contains details like PersonName, EmailId, PhoneNo etc. It also contains a foreign key "CourseID
+  7. Co-ordinator_student: A table that contains information about Co-Ordinators who are all students. It will have two foreign key.
+  8. Co-ordinator_mentors: A table that contains information about the Assign mentors to the batch session. It includes MentorID(FK) It also contains a foreign key "Batch ID.
+  9. Session : A session contains information about the Content, duration of class and the Session join link where it will be held.It belongs to one Batch only. It also contains a foreign key "Batch ID".
+ 10. Session_feedback: A  table that stores feedback from students on their sessions. It contains sessionId(Foreign key referring to S.
+ 11. Activity: A task  or assignment assigned by the instructor to students based on the session conducted. It contains details like Title, Due date, Sub It also contains a foreign key "CourseID"
+ 12. Session_Recording: A  table that contains all the session recordings thought to the student. It includes StudentID, CourseID, Rec,Rec link. It also contains a foreign key "CourseID".
+  
+
+- list of tables and columns:
+  1.Courses:
+   - CourseID : int, Primary Key,auto_increment
+   - Name: varchar(255),not null
+   - Description: text
+   - price: int,not null
+   - Duration:  varchar(40), not null
+
+
+   2.Batch:
+   -  BatchID : int ,Primary key, auto_increment
+   -  CourseID : int ,Foreign key references Course(CourseID)
+   -  StartDateTime : datetime, not null
+   -  EndDateTime : datetime, not null
+   -  Capacity : int, not null
+   -  Enrollment : int, not null
+   - Relationships between tables:
+     A Course can have many Batches.
+
+   3.Students:
+   -  StudentID : int, Primary Key, Auto Increment
+   -  FirstName : varchar(40), Not Null
+   -  LastName : varchar(40)
+   -  EmailId : varchar(100), Unique
+   -  ContactNo : bigint, Not Null
+   -  Address : Text, Not Null
+   -  Gender :  char(6),Not Null
+   -  Date of Birth :  date
+   
+
+   4.Student_Course: 
+   - AdmissionDate : date, Not Null
+   - CourseEnrolled : varchar(40) References Course(Name)
+   - BatchEnrolled : varchar(40) References Batch(StartDateTime)
+   - StudentID : int, Foreign Key References Students(StudentID)
+   
+   5. Mentors:
+   - MentorID : int, Primary Key,Auto increment
+   - FirstName : varchar(40), Not Null
+   - LastName : varchar(40)
+   - EmailId : varchar(100),Unique
+   - PhoneNumber : BigInt, Not Null
+   - Address: varchar(255),  Not Null
+   - Experience : Text
+   - Specialization : varchar(40), Not Null
+   - Technology Stack : Text
+   - Language: varchar(10), Not Null
+  
+   6. Co-ordinator:
+    - CoOrdinatorID : int, Primary Key, Auto Increment
+    - Name : varchar(40), Not Null
+    - Designation : varchar(40), Not Null
+    - Department : varchar(40), Not Null
+    - Email ID : varchar(100), Unique
+    - Phone  Number : Big Int, Not Null
+
+   7.Co-ordinator_student:
+   -  CoOrdinatorID : int,Foreign Key References Co-ordinator(CoOrdinatorID)
+   -  StudentID : int ,Foreign Key References Students(StudentID)
+   -  CourseID: int, Foreign key References Course(CourseID)
+   -  Joining Date : Date, Not Null
+   -  Leaving Date : Date 
+  
+   8.Co-ordinator_mentors:
+   -   CoOrdinatorID : int,Foreign Key References Co-ordinator(CoOrdinatorID)
+   -   MentorID : int,Foreign Key References Mentors(MentorID)
+   -   Batch ID : int,Foreign Key References Batch(BatchID)
+   -   Assigning Date : Date,Not Null
+   -   Removing Date : Date
+   -   Status : Enum("Assigned","Removed")
+   -   Phone Number: Big Int, Not Null
+
+   9. Session:
+   - SessionID : int,Primary Key,Auto Increment
+   -  Topic : varchar(100), Not Null
+   -  Description : text
+   -  Start Time : DateTime, Not Null
+   -  End Time : DateTime
+   -  Session join link:  varchar(300)
+   -  MentorID : int,Foreign Key References Mentors(MentorID)
+   -  Batch ID :  int,Foreign Key References Batch(BatchID)
+   -  Attendees : Text
+   -  CoordinatorID : int,Foreign Key References Co-ordinator(CoOrdinatorID)
+
+   10.Session_feedback:
+   - StudentID:  int, Foreign key Reference Students(StudentID)
+   - SessionID: int,Foreign Key References Session(SessionID)
+   - Feedback: Text
+   - Rating: Float
+   - Date of feedback submission: Date
+  
+
+   11.Activity:
+   - ActivityID : int, Primary Key, Auto increment 
+   - Title:Text
+   - Description: Text
+   - Activity link:Text varchar(255)
+   - Submission link: Text varchar(255)
+   - CourseID :  int ,Foreign Key References Course(CourseID)
+
+   12.Session_Recording:
+   - RecordingID : int, Primary Key, Auto Increment
+   - SessionID : int ,Foreign Key References Session(SessionID)
+   - CourseID:  int ,Foreign Key References Course(CourseID)
+   - File type : varchar(50)
+   - Upload date and time : datetime
+   - File name :varchar(100)
+   - Recording link: Text varchar(255) not null
+   - password :  varchar(100) 
+   - File size : bigint 
+   - File path : varchar(300)
+      
